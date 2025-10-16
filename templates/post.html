@@ -9,6 +9,22 @@
     <div>
         {{ post.content }}
     </div>
-    <a href="{{ url_for('index') }}">回文章列表</a>
+    <a href="{{ url_for('index') }}"><button>回文章列表</button></a>
+    <a href="{{ url_for('edit_post', post_id=post.id) }}"><button>編輯文章</button></a>
+    <button onclick="deletePost('{{ post.id }}')">刪除文章</button>
+    <script>
+    function deletePost(postId) {
+        if (confirm('確定要刪除這篇文章嗎？')) {
+            fetch(`/api/posts/${postId}`, {method: 'DELETE'})
+                .then(res => {
+                    if (res.ok) {
+                        window.location.href = '/';
+                    } else {
+                        alert('刪除失敗');
+                    }
+                });
+        }
+    }
+    </script>
 </body>
 </html>

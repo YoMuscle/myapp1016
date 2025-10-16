@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>編輯文章</title>
+</head>
+<body>
+    <h1>編輯文章</h1>
+    <form id="editPostForm">
+        <label>標題：</label><br>
+        <input type="text" name="title" id="title" required><br>
+        <label>作者：</label><br>
+        <input type="text" name="author" id="author" required><br>
+        <label>內容：</label><br>
+        <textarea name="content" id="content" required></textarea><br>
+        <button type="submit">儲存</button>
+    </form>
+    <a href="{{ url_for('index') }}">回文章列表</a>
+    <script>
+    async function loadPost() {
+        const postId = window.location.pathname.split('/').pop();
+        const res = await fetch(`/api/posts/${postId}`);
+        if (res.ok) {
+            const post = await res.json();
+            document.getElementById('title').value = post.title;
+            document.getElementById('author').value = post.author;
+            document.getElementById('content').value = post.content;
+        }
+    }
+    loadPost();
+    document.getElementById('editPostForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const postId = window.location.pathname.split('/').pop();
+        const form = e.target;
+        const data = {
+            title: form.title.value,
+            author: form.author.value,
+            content: form.content.value
+        };
+        const res = await fetch(`/api/posts/${postId}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        if (res.ok) {
+            window.location.href = `/post/${postId}`;
+        } else {
+            alert('儲存失敗');
+        }
+    };
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新增文章</title>
+</head>
+<body>
+    <h1>新增文章</h1>
+    <form id="newPostForm">
+        <label>標題：</label><br>
+        <input type="text" name="title" required><br>
+        <label>作者：</label><br>
+        <input type="text" name="author" required><br>
+        <label>內容：</label><br>
+        <textarea name="content" required></textarea><br>
+        <button type="submit">儲存</button>
+    </form>
+    <a href="{{ url_for('index') }}">回文章列表</a>
+    <script>
+    document.getElementById('newPostForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+            title: form.title.value,
+            author: form.author.value,
+            content: form.content.value
+        };
+        const res = await fetch('/api/posts', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        if (res.ok) {
+            window.location.href = '/';
+        } else {
+            alert('新增失敗');
+        }
+    };
+    </script>
+</body>
+</html>
