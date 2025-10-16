@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ post.title }}</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>作者：{{ post.author }}</p>
+    <div>
+        {{ post.content }}
+    </div>
+    <a href="{{ url_for('index') }}">回文章列表</a>
+</body>
+</html>

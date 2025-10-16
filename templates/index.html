@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>簡易部落格</title>
+</head>
+<body>
+    <h1>部落格文章列表</h1>
+    <ul>
+        {% for post in posts %}
+        <li>
+            <a href="{{ url_for('post_detail', post_id=post.id) }}">{{ post.title }}</a>
+            - 作者：{{ post.author }}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
